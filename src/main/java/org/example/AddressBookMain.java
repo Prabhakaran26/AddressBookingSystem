@@ -147,6 +147,20 @@ public class AddressBookMain {
         }
     }
 
+    public void writeJSONFIle(){
+        for(String s : addressBookMap.keySet()){
+            AddressBook addressBook = getAddressBook(s);
+            addressBook.writeJSONFile();
+        }
+    }
+
+    public void readJSONFile(){
+        for(String s : addressBookMap.keySet()){
+            AddressBook addressBook = getAddressBook(s);
+            addressBook.readJSONFile();
+        }
+    }
+
     public void displayAddresBook(){
         int i = 1;
         for(String name : addressBookMap.keySet()){
@@ -171,7 +185,9 @@ public class AddressBookMain {
             System.out.println("7. To Read Persons Contact into File");
             System.out.println("8. To Write Persons Contact into CSV File");
             System.out.println("9. To Read Persons Contact into CSV File");
-            System.out.println("10. Exit the Program...");
+            System.out.println("10. To Write Persons Contact on JSON file");
+            System.out.println("11. To Read Persons Contact on JSON file");
+            System.out.println("12. Exit the Program...");
             System.out.println("Enter ur Choice: ");
             int choice = sc.nextInt();
             String name, city, state;
@@ -230,6 +246,14 @@ public class AddressBookMain {
                     system.readCSVFile();
                     break;
                 case 10:
+                    System.out.println("JSON File Writing");
+                    system.writeJSONFIle();
+                    break;
+                case 11:
+                    System.out.println("JSON File Reading");
+                    system.readJSONFile();
+                    break;
+                case 12:
                     return;
             }
         }

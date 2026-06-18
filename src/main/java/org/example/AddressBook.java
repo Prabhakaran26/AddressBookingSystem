@@ -1,11 +1,14 @@
 package org.example;
 
 
-
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 import com.opencsv.CSVReader;
 import com.opencsv.CSVWriter;
 
 import java.io.*;
+import java.lang.reflect.Type;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -13,6 +16,9 @@ public class AddressBook {
 
     private static final String FILE_NAME = "contact.txt";
     private static final String CSV_FILENAME = "contact.csv";
+    private static final String JSON_FILENAME = "contacts.json";
+    private final Gson gson = new GsonBuilder().setPrettyPrinting().create();
+
     Scanner sc = new Scanner(System.in);
     List<Contact> contacts;
 
@@ -185,6 +191,29 @@ public class AddressBook {
                 System.out.println();
             }
         } catch (Exception e){
+            e.printStackTrace();
+        }
+    }
+
+    public void writeJSONFile() {
+        try (FileWriter writer = new FileWriter(JSON_FILENAME)) {
+            gson.toJson(contacts, writer);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void readJSONFile() {
+        try (FileReader reader = new FileReader(JSON_FILENAME)) {
+            Type listType = new TypeToken<ArrayList<Contact>>(){}.getType();
+            List<Contact> importedData = gson.fromJson(reader, listType);
+
+            if (importedData != null) {
+                contacts = importedData;
+            }
+
+            contacts.forEach(c -> System.out.println(c));
+        } catch (IOException e) {
             e.printStackTrace();
         }
     }
